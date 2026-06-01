@@ -17,8 +17,9 @@ export class AppController {
         @Body() dto: CustomPreviewDto
     ) {
         if (!video?.path) throw new BadRequestException("File is missing");
-
+        
         const stream = await this.mediaService.execute(video.path, dto);
+        
         return new StreamableFile(stream, {
             type: "image/png",
             disposition: `inline; filename="output.${dto.outputFormat}"`,

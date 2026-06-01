@@ -19,7 +19,10 @@ export const multer: MulterOptions = {
             fs.mkdirSync(folder, { recursive: true });
             callback(null, folder);
         },
-        filename(req, file, callback) { callback(null, file.originalname) },
+        filename(req, file, callback) {
+            const fixedName = Buffer.from(file.originalname, "latin1").toString("utf8");
+            callback(null, fixedName);
+        },
     }),
     fileFilter(req, file, callback) {
         if (!VIDEO_MIMETYPES.includes(file.mimetype)) {

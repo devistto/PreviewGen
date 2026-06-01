@@ -24,25 +24,29 @@ export const helper = ({
     const data: Record<string, any> = {};
 
     const CHANNELS: Record<number, string> = {
-        1: "1 channel(s), Mono",
-        2: "2 channel(s), Stereo",
+        1: "1 channel (Mono)",
+        2: "2 channels (Stereo)",
     };
-
     const ext = path.extname(name!);
     const base = path.basename(name!, ext);
 
-    const cleanBase = base
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
-        .replace(/\s+/g, "_")
-        .replace(/[^\w.-]/g, "")
-        .replace(/_+/g, "_")
-        .slice(0, 30);
+    const cleanBase = base.normalize("NFKC")
+        .replace(/[\r\n\t]/g, " ")
+        .replace(/:/g, " - ")
+        .replace(/["`']/g, "")
+        .replace(/\[/g, "(")
+        .replace(/\]/g, ")")
+        .replace(/\{/g, "(")
+        .replace(/\}/g, ")")
+        .replace(/\//g, "-")
+        .replace(/\\/g, "-")
+        .replace(/%/g, " percent ")
+        .replace(/\s+/g, " ")
+        .trim();
 
     data.name = cleanBase + ext;
 
-    data.codec = codec?.toUpperCase() || "unknown";
+    data.videoCodec = codec?.toUpperCase() || "unknown";
 
     data.resolution = `${width || 0}x${height || 0}`;
 
@@ -60,10 +64,10 @@ export const helper = ({
         .replaceAll(":", "\\:");
 
     data.videoBitrate = bitrate
-        ? `${Math.round(Number(bitrate) / 1000)} bps`
+        ? `${Math.round(Number(bitrate) / 1000)} Mbps`
         : "Unknown";
 
-    data.audioCodec = audioCodec?.toLowerCase() || "unknown";
+    data.audioCodec = audioCodec?.toUpperCase() || "unknown";
     data.audioSampleRate = audioSampleRate
         ? `${audioSampleRate} Hz`
         : "Unknown";

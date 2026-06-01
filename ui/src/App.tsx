@@ -35,17 +35,17 @@ function App() {
     setImageFile(blob)
     setLoading(false)
   }
-  
+
   return (
     <div className="bg-black w-screen h-screen px-10">
       <HeaderComponent />
       <div className="w-full flex gap-x-6 h-[830px] py-3">
         <SideBarCompoent submitForm={handleSubmitForm} video={file} />
-        <UploadComponent 
-        setFile={setFile} 
-        setImageFile={setImageFile} 
-        imageFile={imageFile} 
-        loading={loading}
+        <UploadComponent
+          setFile={setFile}
+          setImageFile={setImageFile}
+          imageFile={imageFile}
+          loading={loading}
         />
       </div>
     </div>

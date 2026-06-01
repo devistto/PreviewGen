@@ -19,7 +19,7 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
         ratio: "16:9",
         backgroundColor: "#000000",
         textColor: "#FFFFFF",
-        font: "",
+        font: "Inter",
         timestamps: true,
         metadata: true,
         outputFormat: "png",
@@ -120,8 +120,8 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
                     </div>
                 </div>
 
-                <div className="flex gap-x-7 justify-center mt-5 mb-3">
-                    <div className="w-full flex flex-col">
+                <div className="flex gap-x-7 mt-5 mb-3">
+                    <div className="w-[183px] flex flex-col">
                         <h2 className="mb-2">Fonte</h2>
                         <CustomDropdown data={[
                             { fieldText: "Inter", fieldValue: "Inter", fieldName: "font" },
@@ -138,7 +138,7 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
                         <h2 className="mb-2">Timestamps</h2>
                         <CustomDropdown data={[
                             { fieldText: "Mostrar", fieldValue: true, fieldName: "timestamps" },
-                            { fieldText: "Não", fieldValue: false, fieldName: "timestamps" }
+                            { fieldText: "Não mostrar", fieldValue: false, fieldName: "timestamps" }
                         ]} defineValue={updateSetting} />
                     </div>
 
@@ -157,26 +157,14 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
             <div className="flex flex-col mt-3 mb-3">
                 <h1 className="text-xl flex"><p className="text-blue-200">3</p>. Saída</h1>
 
-                <div className="flex gap-x-7 justify-center mt-5 mb-3">
-                    <div className="w-full flex flex-col">
+                <div className="flex gap-x-7  mt-5 mb-3">
+                    <div className="w-[250px] flex flex-col">
                         <h2 className="mb-2">Formato</h2>
                         <CustomDropdown data={[
-                            { fieldText: "PNG", fieldValue: "png", fieldName: "outputFormat" },
-                            { fieldText: "JPEG", fieldValue: "jpeg", fieldName: "outputFormat" },
-                            { fieldText: "WEBP", fieldValue: "webp", fieldName: "outputFormat" }
+                            { fieldText: "PNG - Maxima qualidade ", fieldValue: "png", fieldName: "outputFormat" },
+                            { fieldText: "JPEG - Muito boa qualidade", fieldValue: "jpeg", fieldName: "outputFormat" },
+                            { fieldText: "WEBP - Boa qualidade", fieldValue: "webp", fieldName: "outputFormat" }
                         ]} defineValue={updateSetting} />
-                    </div>
-
-                    <div className="w-full flex flex-col justify-between">
-                        <h2 className="">Qualidade</h2>
-                        <div className="flex gap-x-3 items-center">
-                            <input type="range" min="50" max="100" step="1"
-                                value={settings.quality}
-                                onChange={(e) => updateSetting("quality", Number(e.target.value))}
-                                className="w-full"
-                            />
-                            <p className="px-3 w-20 flex justify-center py-1 text-xs border border-zinc-800">{settings.quality} <span className="text-zinc-500 ml-2">%</span></p>
-                        </div>
                     </div>
                 </div>
             </div>

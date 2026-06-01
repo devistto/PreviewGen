@@ -73,10 +73,7 @@ export class PreviewService {
         vf.push(`thumbnail=${data.thumbnailSize}`);
 
         vf.push(
-            `split[a][b];
-            [b]scale=${scale},boxblur=20[bg];
-            [a]scale=${scale}:force_original_aspect_ratio=decrease[fg];
-            [bg][fg]overlay=(W-w)/2:(H-h)/2`
+            `scale=${scale}:force_original_aspect_ratio=decrease,pad=${scale}:(ow-iw)/2:(oh-ih)/2:black`
         );
 
         if (dto.timestamps) {
@@ -97,25 +94,32 @@ export class PreviewService {
                 vf.push(`drawtext=fontfile='${font}':text='${str}':x=5:y=${yPosition}:fontsize=${textSize}:fontcolor=${dto.textColor}`)
             };
 
-            insert(`NAME\\: ${data.name}`, y0);
+            insert(`Name\\: ${data.name}`, y0);
 
-            insert(`VIDEO\\: [${data.codec}], ${data.resolution}, ${data.fps} fps, ${data.size}, ${data.videoBitrate}`, y1);
+            insert(`Video\\: ${data.videoCodec}, ${data.resolution}, ${data.fps} fps, ${data.size}, ${data.videoBitrate}`, y1);
 
-            insert(`AUDIO\\: [${data.audioCodec}], ${data.audioChannels}, ${data.audioSampleRate}`, y2);
+            insert(`Audio\\: ${data.audioCodec}, ${data.audioChannels}, ${data.audioSampleRate}`, y2);
 
-            insert(`DURATION\\: ${data.duration}`, y3);
+            insert(`Duration\\: ${data.duration}`, y3);
         }
 
-        const codecMap = { png: "png", jpeg: "mjpeg", webp: "libwebp", };
+        const formatConfig = {
+            png: { codec: "png", options: [] },
+            jpeg: { codec: "mjpeg", options: ["-q:v", "3"] },
+            webp: { codec: "libwebp", options: ["-quality", "90"] }
+        } as const;
+
         const stream = new PassThrough();
+        const config = formatConfig[dto.outputFormat];
 
         ffmpeg(filePath)
             .outputOptions([
                 "-vf", vf.join(","),
                 "-frames:v", "1",
-                "-f", "image2pipe"
+                "-f", "image2pipe",
+                ...config.options
             ])
-            .videoCodec(codecMap[dto.outputFormat])
+            .videoCodec(config.codec)
             .pipe(stream)
 
         return stream

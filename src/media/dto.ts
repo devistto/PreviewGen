@@ -32,10 +32,4 @@ export class CustomPreviewDto {
 
     @IsIn(["png", "jpeg", "webp"])
     outputFormat!: string;
-
-    @Transform((data) => Number(data.value))
-    @IsNumber()
-    @Min(50)
-    @Max(100)
-    quality!: number;
 }

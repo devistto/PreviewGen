@@ -94,12 +94,12 @@ export const UploadComponent = ({ setFile, imageFile, setImageFile, loading }: F
                                 <>
                                     <div className="relative">
 
-                                        <div className="absolute -inset-4 bg-blue-500/20 blur-3xl rounded-xl" />
+                                        <div className="absolute -inset-4 bg-blue-500/20 blur-3xl" />
 
                                         <img
                                             src={URL.createObjectURL(imageFile)}
                                             className="relative max-w-[85%] max-h-[75vh] mx-auto
-                               object-contain rounded-xl
+                               object-contain
                                border border-zinc-600/50
                                shadow-[0_0_60px_rgba(0,0,0,0.7)]"
                                         />
@@ -187,7 +187,7 @@ export const UploadComponent = ({ setFile, imageFile, setImageFile, loading }: F
                     <MdLocalMovies className="text-4xl bg-zinc-700/70 text-zinc-500 p-2 rounded-md" />
                     <div className="flex flex-col">
                         <h1>{metdata.resolution}</h1>
-                        <p className="text-zinc-500">Resolução de video</p>
+                        <p className="text-zinc-500">Resolução de imagem</p>
                     </div>
                 </div>
 
