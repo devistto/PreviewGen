@@ -3,6 +3,7 @@ import ffmpeg from "src/processors/ffmpeg";
 import { CustomPreviewDto } from "./dto";
 import path from "path"
 import { helper, MediaDataTypes } from "./helper";
+import { PassThrough } from "stream";
 
 export class PreviewService {
     private validateFile(filePath: string): Promise<Partial<MediaDataTypes>> {
@@ -55,6 +56,11 @@ export class PreviewService {
     async transcode(filePath: string, dto: CustomPreviewDto) {
         const metadata = await this.validateFile(filePath);
 
+        const font = path
+            .join(process.cwd(), "fonts", `${dto.font}.ttf`)
+            .replace(/\\/g, "/")
+            .replace(/^([A-Za-z]):/, "$1\\:");
+
         const data = helper({
             ...metadata,
             scale: dto.ratio,
@@ -74,8 +80,9 @@ export class PreviewService {
         );
 
         if (dto.timestamps) {
+
             vf.push(
-                `drawtext=font=${dto.font}:text='%{eif\\:t/3600\\:d\\:2}\\:%{eif\\:(mod(t\\,3600))/60\\:d\\:2}\\:%{eif\\:mod(t\\,60)\\:d\\:2}':x=w-tw-10:y=h-th-10:fontsize=22:fontcolor=white`
+                `drawtext=fontfile=${font}:text='%{eif\\:t/3600\\:d\\:2}\\:%{eif\\:(mod(t\\,3600))/60\\:d\\:2}\\:%{eif\\:mod(t\\,60)\\:d\\:2}':x=w-tw-10:y=h-th-10:fontsize=22:fontcolor=white`
             )
         };
 
@@ -87,7 +94,7 @@ export class PreviewService {
             vf.push(`pad=iw:ih+${spaceSize}:${dto.backgroundColor}`);
 
             const insert = (str: string, yPosition: number) => {
-                vf.push(`drawtext=font=${dto.font}:text='${str}':x=5:y=${yPosition}:fontsize=${textSize}:fontcolor=${dto.textColor}`)
+                vf.push(`drawtext=fontfile='${font}':text='${str}':x=5:y=${yPosition}:fontsize=${textSize}:fontcolor=${dto.textColor}`)
             };
 
             insert(`NAME\\: ${data.name}`, y0);
@@ -99,12 +106,19 @@ export class PreviewService {
             insert(`DURATION\\: ${data.duration}`, y3);
         }
 
-        return new Promise((resolve, reject) => {
-            ffmpeg(filePath)
-                .outputOptions(["-vf", vf.join(","), "-frames:v", "1"])
-                .save(path.join(process.cwd(), "uploads", `${data.name}-preview.${dto.outputFormat}`))
-                .on("end", resolve)
-                .on("error", reject);
-        });
-    }
+        const codecMap = { png: "png", jpeg: "mjpeg", webp: "libwebp", };
+        const stream = new PassThrough();
+
+        ffmpeg(filePath)
+            .outputOptions([
+                "-vf", vf.join(","),
+                "-frames:v", "1",
+                "-f", "image2pipe"
+            ])
+            .videoCodec(codecMap[dto.outputFormat])
+            .pipe(stream)
+
+        return stream
+    };
+
 }

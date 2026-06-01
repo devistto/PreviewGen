@@ -7,15 +7,19 @@ import { IoTime } from "react-icons/io5";
 import { MdLocalMovies } from "react-icons/md";
 import { AiFillFileText } from "react-icons/ai";
 import { filesize } from "filesize"
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type FileTye = {
-    setFile: React.Dispatch<React.SetStateAction<File | null>>
+    setFile: React.Dispatch<React.SetStateAction<File | null>>;
+    imageFile: Blob | null
+    setImageFile: React.Dispatch<React.SetStateAction<Blob | null>>
+    loading: boolean
 }
 
-export const UploadComponent = ({ setFile }: FileTye) => {
+export const UploadComponent = ({ setFile, imageFile, setImageFile, loading }: FileTye) => {
     const [videoUrl, setVideoUrl] = useState("");
     const [metdata, setMetadata] = useState({
-        name: "...",
+        name: "desconhecido",
         size: "desconhecido",
         resolution: "desconhecido",
         duration: "desconhecido",
@@ -57,8 +61,75 @@ export const UploadComponent = ({ setFile }: FileTye) => {
         video.src = url;
     };
 
+    const handleDownload = () => {
+        if (!imageFile) return;
+
+        const url = URL.createObjectURL(imageFile);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "preview.png";
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        URL.revokeObjectURL(url);
+    };
+
     return (
-        <div className="bg-zinc-800/70 w-full h-full px-5 py-2 rounded-md flex flex-col text-white border border-zinc-700/30">
+        <div className="bg-zinc-800/70 w-full h-full px-5 py-2 rounded-md flex flex-col text-white border border-zinc-700/30 relative">
+
+            {
+                <div className={`${loading || imageFile ? "visible" : "invisible"} absolute inset-0 z-20 flex flex-col items-center justify-center
+                        bg-black/40 backdrop-blur-md`}>
+                    {
+                        loading ? <div>
+                            <div className="flex flex-col items-center">
+                                <AiOutlineLoading3Quarters className="animate-spin text-4xl mb-3" />
+                                <p>Por favor, aguarde</p>
+                            </div>
+                        </div>
+                            : imageFile ? (
+                                <>
+                                    <div className="relative">
+
+                                        <div className="absolute -inset-4 bg-blue-500/20 blur-3xl rounded-xl" />
+
+                                        <img
+                                            src={URL.createObjectURL(imageFile)}
+                                            className="relative max-w-[85%] max-h-[75vh] mx-auto
+                               object-contain rounded-xl
+                               border border-zinc-600/50
+                               shadow-[0_0_60px_rgba(0,0,0,0.7)]"
+                                        />
+
+                                    </div>
+
+                                    <div className="flex gap-4 mt-8">
+                                        <button
+                                            onClick={handleDownload}
+                                            className="px-8 py-3 rounded-lg
+                               bg-blue-600 hover:bg-blue-500
+                               transition font-medium shadow-lg"
+                                        >
+                                            Salvar
+                                        </button>
+
+                                        <button
+                                            onClick={() => setImageFile(null)}
+                                            className="px-8 py-3 rounded-lg
+                               bg-zinc-700 hover:bg-zinc-600
+                               transition font-medium"
+                                        >
+                                            Fechar
+                                        </button>
+                                    </div>
+                                </>
+                            ) : null
+                    }
+                </div>
+            }
 
             <header className="flex justify-between items-start h-12 w-full">
                 <div className="flex gap-x-3 items-center px-3 py-1">
@@ -129,6 +200,6 @@ export const UploadComponent = ({ setFile }: FileTye) => {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }

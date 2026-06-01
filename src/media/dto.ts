@@ -19,7 +19,7 @@ export class CustomPreviewDto {
     @IsHexColor()
     textColor!: string;
 
-    @IsIn(["Arial", ""])
+    @IsIn(["OpenSans", "Outfit", "Roboto", "PlusJakartaSans", "Inter" ])
     font!: string;
 
     @Transform(({ value }) => value === "true" || value === true)

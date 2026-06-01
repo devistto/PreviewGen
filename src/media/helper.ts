@@ -28,17 +28,19 @@ export const helper = ({
         2: "2 channel(s), Stereo",
     };
 
-    data.name = name
-        ?.normalize("NFD")
+    const ext = path.extname(name!);
+    const base = path.basename(name!, ext);
+
+    const cleanBase = base
+        .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
         .replace(/\s+/g, "_")
         .replace(/[^\w.-]/g, "")
         .replace(/_+/g, "_")
-        .split(path.extname(name!))[0]
-        .slice(0, 30)
-        .concat(name?.length > 30 ? path.extname(name!) : ""
-        )
+        .slice(0, 30);
+
+    data.name = cleanBase + ext;
 
     data.codec = codec?.toUpperCase() || "unknown";
 
@@ -106,7 +108,7 @@ const SCALES = {
             "2x2": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "75:0:70" },
             "3x3": { y0: 12, y1: 35, y2: 58, y3: 81, textSize: 16, spaceSize: "105:0:100" },
             "4x4": { y0: 17, y1: 47, y2: 77, y3: 105, textSize: 22, spaceSize: "140:0:135" },
-            "5x5": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "110:0:100" }
+            "5x5": { y0: 15, y1: 52, y2: 90, y3: 128, textSize: 28, spaceSize: "160:0:155" }
         }
     },
 
@@ -116,7 +118,7 @@ const SCALES = {
             "2x2": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "75:0:70" },
             "3x3": { y0: 12, y1: 35, y2: 58, y3: 81, textSize: 16, spaceSize: "105:0:100" },
             "4x4": { y0: 17, y1: 47, y2: 77, y3: 105, textSize: 22, spaceSize: "140:0:135" },
-            "5x5": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "110:0:100" }
+            "5x5": { y0: 15, y1: 52, y2: 90, y3: 128, textSize: 28, spaceSize: "160:0:155" }
         }
     },
 
@@ -126,7 +128,7 @@ const SCALES = {
             "2x2": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "75:0:70" },
             "3x3": { y0: 12, y1: 35, y2: 58, y3: 81, textSize: 16, spaceSize: "105:0:100" },
             "4x4": { y0: 17, y1: 47, y2: 77, y3: 105, textSize: 22, spaceSize: "140:0:135" },
-            "5x5": { y0: 10, y1: 26, y2: 42, y3: 58, textSize: 11, spaceSize: "110:0:100" }
+            "5x5": { y0: 15, y1: 52, y2: 90, y3: 128, textSize: 28, spaceSize: "160:0:155" }
         }
     },
 

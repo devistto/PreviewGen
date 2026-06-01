@@ -5,7 +5,7 @@ import { FaTiktok } from "react-icons/fa";
 import { GrInstagram } from "react-icons/gr";
 import { MdOutlineFileDownload } from "react-icons/md";
 
-export type FieldNameType = "grid" | "spacing" | "ratio" | "backgroundColor" | "textColor" | "font" | "radius" | "timestamps" | "metadata" | "outputFormat" | "quality";
+export type FieldNameType = "grid" | "spacing" | "ratio" | "backgroundColor" | "textColor" | "font" | "timestamps" | "metadata" | "outputFormat" | "quality";
 
 type FunctionType = {
     submitForm: (data: any) => void;
@@ -20,7 +20,6 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
         backgroundColor: "#000000",
         textColor: "#FFFFFF",
         font: "",
-        radius: 0,
         timestamps: true,
         metadata: true,
         outputFormat: "png",
@@ -125,21 +124,12 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
                     <div className="w-full flex flex-col">
                         <h2 className="mb-2">Fonte</h2>
                         <CustomDropdown data={[
-                            { fieldText: "Padrão", fieldValue: "", fieldName: "font" },
-                            { fieldText: "Ariaal", fieldValue: "Arial", fieldName: "font" }
+                            { fieldText: "Inter", fieldValue: "Inter", fieldName: "font" },
+                            { fieldText: "Plus Jakarta Sans", fieldValue: "PlusJakartaSans", fieldName: "font" },
+                            { fieldText: "Open Sans", fieldValue: "OpenSans", fieldName: "font" },
+                            { fieldText: "Roboto", fieldValue: "Roboto", fieldName: "font" },
+                            { fieldText: "Outfit", fieldValue: "Outfit", fieldName: "font" }
                         ]} defineValue={updateSetting} />
-                    </div>
-
-                    <div className="w-full flex flex-col justify-between">
-                        <h2 className="">Curva</h2>
-                        <div className="flex gap-x-3 items-center">
-                            <input type="range" min="0" max="10" step="1"
-                                value={settings.radius}
-                                onChange={(e) => updateSetting("radius", Number(e.target.value))}
-                                className="w-full"
-                            />
-                            <p className="px-3 w-20 flex justify-center py-1 text-xs border border-zinc-800">{settings.radius} <span className="text-zinc-500 ml-2">px</span></p>
-                        </div>
                     </div>
                 </div>
 
@@ -147,16 +137,16 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
                     <div className="w-full flex flex-col">
                         <h2 className="mb-2">Timestamps</h2>
                         <CustomDropdown data={[
-                            { fieldText: "Todos", fieldValue: true, fieldName: "timestamps" },
-                            { fieldText: "Nenhum", fieldValue: false, fieldName: "timestamps" }
+                            { fieldText: "Mostrar", fieldValue: true, fieldName: "timestamps" },
+                            { fieldText: "Não", fieldValue: false, fieldName: "timestamps" }
                         ]} defineValue={updateSetting} />
                     </div>
 
                     <div className="w-full flex flex-col">
                         <h2 className="mb-2">Metadados</h2>
                         <CustomDropdown data={[
-                            { fieldText: "Todos", fieldValue: true, fieldName: "metadata" },
-                            { fieldText: "Nenhum", fieldValue: false, fieldName: "metadata" },
+                            { fieldText: "Mostrar", fieldValue: true, fieldName: "metadata" },
+                            { fieldText: "Não mostrar", fieldValue: false, fieldName: "metadata" },
                         ]} defineValue={updateSetting} />
                     </div>
                 </div>
@@ -172,7 +162,7 @@ export const SideBarCompoent = ({ submitForm, video }: FunctionType) => {
                         <h2 className="mb-2">Formato</h2>
                         <CustomDropdown data={[
                             { fieldText: "PNG", fieldValue: "png", fieldName: "outputFormat" },
-                            { fieldText: "JPEG", fieldValue: "jpg", fieldName: "outputFormat" },
+                            { fieldText: "JPEG", fieldValue: "jpeg", fieldName: "outputFormat" },
                             { fieldText: "WEBP", fieldValue: "webp", fieldName: "outputFormat" }
                         ]} defineValue={updateSetting} />
                     </div>

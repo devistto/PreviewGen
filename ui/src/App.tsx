@@ -4,9 +4,12 @@ import { SideBarCompoent } from "./components/sidebar";
 import { UploadComponent } from "./components/upload";
 
 function App() {
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<null | Blob>(null);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmitForm = async (data: any) => {
+    setLoading(true)
     const formData = new FormData();
 
     formData.append("video", data.video);
@@ -23,18 +26,27 @@ function App() {
     formData.append("timestamps", String(data.timestamps));
     formData.append("metadata", String(data.metadata));
 
-    await fetch("http://localhost:3000/api/video", {
+    const response = await fetch("http://localhost:3000/api/video", {
       method: "POST",
       body: formData
     });
-  }
 
+    const blob = await response.blob();
+    setImageFile(blob)
+    setLoading(false)
+  }
+  
   return (
     <div className="bg-black w-screen h-screen px-10">
       <HeaderComponent />
       <div className="w-full flex gap-x-6 h-[830px] py-3">
         <SideBarCompoent submitForm={handleSubmitForm} video={file} />
-        <UploadComponent setFile={setFile} />
+        <UploadComponent 
+        setFile={setFile} 
+        setImageFile={setImageFile} 
+        imageFile={imageFile} 
+        loading={loading}
+        />
       </div>
     </div>
   )
