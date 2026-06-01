@@ -26,7 +26,9 @@ function App() {
     formData.append("timestamps", String(data.timestamps));
     formData.append("metadata", String(data.metadata));
 
-    const response = await fetch("http://localhost:3000/api/video", {
+    const url = import.meta.env.BACKEND_URL || "http://localhost:3000/api/video";
+    
+    const response = await fetch(url, {
       method: "POST",
       body: formData
     });
