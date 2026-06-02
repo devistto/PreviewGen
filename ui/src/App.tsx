@@ -5,7 +5,7 @@ import { UploadComponent } from "./components/upload";
 
 function App() {
   const [file, setFile] = useState<File | null>(null);
-  const [imageFile, setImageFile] = useState<null | Blob>(null);
+  const [imageFile, setImageFile] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmitForm = async (data: any) => {
@@ -21,20 +21,19 @@ function App() {
     formData.append("textColor", data.textColor);
     formData.append("font", data.font);
     formData.append("outputFormat", data.outputFormat);
-    formData.append("quality", String(data.quality));
-    formData.append("radius", String(data.radius));
     formData.append("timestamps", String(data.timestamps));
     formData.append("metadata", String(data.metadata));
 
-    const url = import.meta.env.BACKEND_URL || "http://localhost:3000/api/video";
-    
-    const response = await fetch(url, {
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000/api/video";
+    console.log(SERVER_URL)
+    const response = await fetch(SERVER_URL, {
       method: "POST",
       body: formData
     });
 
     const blob = await response.blob();
-    setImageFile(blob)
+    const url = URL.createObjectURL(blob);
+    setImageFile(url)
     setLoading(false)
   }
 

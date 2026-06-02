@@ -4,6 +4,7 @@ import { CustomPreviewDto } from "./dto";
 import path from "path"
 import { helper, MediaDataTypes } from "./helper";
 import { PassThrough } from "stream";
+import { on } from "events";
 
 export class PreviewService {
     private validateFile(filePath: string): Promise<Partial<MediaDataTypes>> {
@@ -34,7 +35,7 @@ export class PreviewService {
                 };
 
                 return resolve({
-                    name: path.basename(format.filename!),
+                    name: format.filename!,
 
                     codec: videoStream.codec_name,
                     width: videoStream.width,
@@ -79,7 +80,7 @@ export class PreviewService {
         if (dto.timestamps) {
 
             vf.push(
-                `drawtext=fontfile=${font}:text='%{eif\\:t/3600\\:d\\:2}\\:%{eif\\:(mod(t\\,3600))/60\\:d\\:2}\\:%{eif\\:mod(t\\,60)\\:d\\:2}':x=w-tw-10:y=h-th-10:fontsize=22:fontcolor=white`
+                `drawtext=fontfile='${font}':text='%{eif\\:t/3600\\:d\\:2}\\:%{eif\\:(mod(t\\,3600))/60\\:d\\:2}\\:%{eif\\:mod(t\\,60)\\:d\\:2}':x=w-tw-10:y=h-th-10:fontsize=22:fontcolor=white`
             )
         };
 

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './media/app.module';
 import cors from "cors"
+import "./cron"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

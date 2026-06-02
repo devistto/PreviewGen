@@ -1,7 +1,7 @@
 import { GiConfirmed } from "react-icons/gi";
 import { FaRepeat } from "react-icons/fa6";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { FaRegFileVideo } from "react-icons/fa6";
 import { IoTime } from "react-icons/io5";
 import { MdLocalMovies } from "react-icons/md";
@@ -11,8 +11,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type FileTye = {
     setFile: React.Dispatch<React.SetStateAction<File | null>>;
-    imageFile: Blob | null
-    setImageFile: React.Dispatch<React.SetStateAction<Blob | null>>
+    imageFile: string | null
+    setImageFile: React.Dispatch<React.SetStateAction<string | null>>
     loading: boolean
 }
 
@@ -60,22 +60,23 @@ export const UploadComponent = ({ setFile, imageFile, setImageFile, loading }: F
 
         video.src = url;
     };
-
     const handleDownload = () => {
         if (!imageFile) return;
 
-        const url = URL.createObjectURL(imageFile);
-
         const a = document.createElement("a");
-        a.href = url;
+        a.href = imageFile;
         a.download = "preview.png";
 
-        document.body.appendChild(a);
         a.click();
-        a.remove();
-
-        URL.revokeObjectURL(url);
     };
+
+    useEffect(() => {
+        return () => {
+            if (imageFile) {
+                URL.revokeObjectURL(imageFile);
+            }
+        };
+    }, [imageFile]);
 
     return (
         <div className="bg-zinc-800/70 w-full h-full px-5 py-2 rounded-md flex flex-col text-white border border-zinc-700/30 relative">
@@ -97,7 +98,7 @@ export const UploadComponent = ({ setFile, imageFile, setImageFile, loading }: F
                                         <div className="absolute -inset-4 bg-blue-500/20 blur-3xl" />
 
                                         <img
-                                            src={URL.createObjectURL(imageFile)}
+                                            src={imageFile}
                                             className="relative max-w-[85%] max-h-[75vh] mx-auto
                                object-contain
                                border border-zinc-600/50

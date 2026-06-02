@@ -20,7 +20,7 @@ export const multer: MulterOptions = {
             callback(null, folder);
         },
         filename(req, file, callback) {
-            const fixedName = Buffer.from(file.originalname, "latin1").toString("utf8");
+            const fixedName = `input${path.extname(file.originalname)}`
             callback(null, fixedName);
         },
     }),
@@ -31,4 +31,4 @@ export const multer: MulterOptions = {
         };
         callback(null, true)
     }
-} 
+}

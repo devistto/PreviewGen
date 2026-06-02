@@ -5,7 +5,7 @@ export const HeaderComponent = () => {
         <div className="flex justify-between items-center h-16">
 
             <div className="flex items-center h-full text-white gap-x-3">
-                <img src="../public/logo.png" className="w-8 h-8" />
+                <img src="logo.png" className="w-8 h-8" />
                 <p className="font-bold text-xl">PreviewGen</p>
             </div>
 
