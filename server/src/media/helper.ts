@@ -65,12 +65,12 @@ export const helper = ({
 
     data.videoBitrate = bitrate
         ? `${Math.round(Number(bitrate) / 1000)} Mbps`
-        : "Unknown";
+        : "unknown";
 
     data.audioCodec = audioCodec?.toUpperCase() || "unknown";
     data.audioSampleRate = audioSampleRate
         ? `${audioSampleRate} Hz`
-        : "Unknown";
+        : "unknown";
 
     data.audioChannels =
         CHANNELS[audioChannels || 0] ||

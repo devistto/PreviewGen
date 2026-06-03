@@ -1,0 +1,18 @@
+services:
+  server:
+    build:
+      context: ./server
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+  ui:
+    build:
+      context: ./ui
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_SERVER_URL: http://localhost:3000/api/video
+    depends_on:
+      - server

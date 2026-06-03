@@ -25,12 +25,11 @@ function App() {
     formData.append("metadata", String(data.metadata));
 
     const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000/api/video";
-    console.log(SERVER_URL)
+
     const response = await fetch(SERVER_URL, {
       method: "POST",
       body: formData
     });
-
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     setImageFile(url)
