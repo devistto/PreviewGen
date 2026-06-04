@@ -20,7 +20,7 @@ export const multer: MulterOptions = {
             callback(null, folder);
         },
         filename(req, file, callback) {
-            const fixedName = `input${path.extname(file.originalname)}`
+            const fixedName = `${file.originalname}`
             callback(null, fixedName);
         },
     }),

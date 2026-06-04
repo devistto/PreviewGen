@@ -29,7 +29,6 @@ export const helper = ({
     };
     const ext = path.extname(name!);
     const base = path.basename(name!, ext);
-
     const cleanBase = base.normalize("NFKC")
         .replace(/[\r\n\t]/g, " ")
         .replace(/:/g, " - ")

@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsBoolean, IsHexColor, IsIn, IsNumber, IsString, Max, Min } from "class-validator";
+import { IsBoolean, IsHexColor, IsIn, IsNumber } from "class-validator";
 
 export class CustomPreviewDto {
     @IsIn(["2x2", "3x3", "4x4", "5x5"])

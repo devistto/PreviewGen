@@ -2,7 +2,7 @@ import cron from "node-cron";
 import fs from "fs";
 import path from "path";
 
-const MAX_IDLE_TIME = 120 * 1000;
+const MAX_IDLE_TIME = 10 * 60 * 1000;
 const uploadsDir = path.join(process.cwd(), "uploads");
 
 cron.schedule("*/30 * * * * *", () => {
