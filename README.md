@@ -1,9 +1,13 @@
 # PreviewGen - Automated Video Thumbnail Generator
 
 ## Introdução
-PreviewGen é uma ferramenta full-stack para geração automática de thumbnails com customização de layout, textos e exportação de imagem com suporte amplo de formatos de vídeo. Gera thumbnails nos formatos PNG, JPEG, WebP, e conta com mecanismo de limpeza de arquivos que não fazem parte de nenhum processo em execução.
+PreviewGen é uma ferramenta para geração de contact sheet com customização de layout, textos e exportação de imagem com suporte amplo de formatos de vídeo. Gera imagens nos formatos PNG, JPEG, WebP, e conta com mecanismo de limpeza de arquivos que não fazem parte de nenhum processo em execução.
+
+[demonstração](https://www.linkedin.com/posts/devistto_ciei-uma-ferramenta-com-nodejs-nestjs-activity-7468089955215642625-JVXT?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGVn100BieRvyAMSkgzU9qUUbRemmWsneqw)
 
 O objetivo da ferramenta é gerar previews customizados de forma rápida, satisfatória e automatizada, com interface gráfica para facilitar a usabilidade.
+
+![prévia](./server/public/preview.png)
 
 ## Formatos suportados
 Essa lista de MIME types não é definitiva e pode ser alterada facilmente em código. 
@@ -12,9 +16,13 @@ video/3gpp, video/3gpp2, video/h261, video/h263, video/h264, video/iso.segment, 
 ```
 
 ## Tecnologias
-Backend: Node.js, NestJS, TypeScript.
-Frontend: React.js, Tailwind CSS.
-Ferramentas: Docker, Git.
+- Node.js
+- NestJS,
+- TypeScript
+- React.js
+- Tailwind CSS
+- Docker
+- Git
 
 ## Instalação
 Não é obrigatório Docker instalado para rodar esse projeto, mas é recomendado. Caso queira, é possível executar localmente trocando o comando Docker por ```npm install```e executando cada serviço manualmente.
@@ -50,12 +58,3 @@ Tabela para referência de campos disponíveis.
 | timestamps | boolean | Exibe ou oculta os timestamps das miniaturas. |
 | metadata | boolean | Exibe ou oculta informações adicionais do vídeo. |
 | outputFormat | string | Formato da imagem gerada. Valores permitidos: `png`, `jpeg`, `webp`. |
-
-**exemplo:**
-![prévia](./server/public/preview.png)
-
-## Nota sobre execução
-
-Este projeto não está hospedado em produção no momento.
-No entanto, pode ser executado localmente via Docker com ambiente totalmente funcional. 
-Toda a pipeline de geração de thumbnails, processamento de vídeo com FFmpeg e customizações está implementada e operacional dentro do container.
